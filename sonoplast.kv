@@ -1,7 +1,7 @@
 <SonoplastUI>:
     canvas.before:
         Color:
-            rgba: 0.1, 0.1, 0.1, 1
+            rgba: 0.15, 0, 0.18, 1
         Rectangle:
             pos: self.pos
             size: self.size
@@ -28,12 +28,12 @@
 
     Label:
         text: "a sonoloplast player_"
-        font_size: 30
+        font_size: 32
         font_name: "fonts/Orbitron-Regular.ttf"
         color: 1,1,1,1
         size_hint: None, None
         size: self.texture_size
-        pos: 450, root.height - 140
+        pos: 450, root.height - 135
 
     Label:
         text: "🎵 Sample Track"
@@ -41,7 +41,7 @@
         color: 1, 1, 1, 1
         size_hint: None, None
         size: self.texture_size
-        pos: 40, root.height - 180
+        pos: 40, root.height - 170
 
     Slider:
         min: 0
