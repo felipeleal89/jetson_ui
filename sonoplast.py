@@ -2,8 +2,7 @@ from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
 from kivy.core.window import Window
 
-Window.original_size = (1280, 720)
-Window.resizable = False
+Window.size = (1280, 720)
 Window.title = "SonoBlast"
 Window.fullscreen = True
 
