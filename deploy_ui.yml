@@ -20,7 +20,7 @@
       ansible.builtin.shell: |
         cd /home/nanoql/jetson_ui
         source .venv/bin/activate 
-        python main.py &
+        python main.py > /dev/null 2>&1 </dev/null &
       args:
         executable: /bin/bash
 
