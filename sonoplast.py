@@ -1,16 +1,17 @@
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 
-class MainUI(BoxLayout):
+
+class SonoplastUI(BoxLayout):
     def play(self):
-        print("▶️ Play pressed")
+        print("<INFO> Play pressed")
 
     def stop(self):
-        print("⛔ Emergency Stop!")
+        print("<WARN> Emergency Stop!")
 
 class SonoplastApp(App):
     def build(self):
-        return MainUI()
+        return SonoplastUI()
 
 if __name__ == "__main__":
     SonoplastApp().run()
