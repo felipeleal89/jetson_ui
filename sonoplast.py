@@ -4,7 +4,8 @@ from kivy.core.window import Window
 
 Window.original_size = (1280, 720)
 Window.resizable = False
-Window.title = "Sonoplast"
+Window.title = "SonoBlast"
+Window.fullscreen = True
 
 class SonoplastUI(FloatLayout):
     def play(self):

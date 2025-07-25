@@ -7,21 +7,33 @@
             size: self.size
 
     Label:
-        text: "Sonoblast Player"
-        font_size: 60
-        font: "Roboto"
+        text: "Sono"
+        markup: True
+        font_size: 100
+        font_name: "fonts/RobotoCondensed-Regular.ttf"
         color: 1, 0.5, 1, 1
         size_hint: None, None
         size: self.texture_size
-        pos: 1280, root.height - 80
-
+        pos: 600, root.height - 120
+    
     Label:
-        text: "Professional Music Player"
-        font_size: 18
-        color: 0.7, 0.7, 0.7, 1
+        text: "Blast"
+        markup: True
+        font_size: 100
+        font_name: "fonts/RobotoCondensed-ExtraBold.ttf"
+        color: 1, 0.5, 1, 1
         size_hint: None, None
         size: self.texture_size
-        pos: 40, root.height - 120
+        pos: 600 + self.texture_size[0], root.height - 120
+
+    Label:
+        text: "a sonoloplast player_"
+        font_size: 30
+        font_name: "fonts/Orbitron-Regular.ttf"
+        color: 1,1,1,1
+        size_hint: None, None
+        size: self.texture_size
+        pos: 630, root.height - 140
 
     Label:
         text: "🎵 Sample Track"
