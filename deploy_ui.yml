@@ -1,0 +1,26 @@
+- name: Deploy and run Kivy UI on Jetson Nano
+  hosts: jetson
+  become: false
+  tasks:
+
+    - name: Ensure project folder exists
+      ansible.builtin.file:
+        path: /home/nanoql/jetson_ui
+        state: directory
+
+    - name: Git pull latest code
+      ansible.builtin.git:
+        repo: 'https://github.com/felipeleal89/jetson_ui.git'
+        dest: /home/nanoql/jetson_ui
+        version: main
+        force: yes
+        update: yes
+
+    - name: Run main.py from venv
+      ansible.builtin.shell: |
+        cd /home/nanoql/jetson_ui
+        source .venv/bin/activate 
+        python main.py
+      args:
+        executable: /bin/bash
+
