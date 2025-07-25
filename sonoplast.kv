@@ -5,6 +5,12 @@
         Rectangle:
             pos: self.pos
             size: self.size
+    
+    PlayButton:
+        size_hint: None, None
+        size: 100, 100
+        pos: 580, root.height - 450
+
 
     Label:
         text: "Sono"
@@ -33,15 +39,7 @@
         color: 1,1,1,1
         size_hint: None, None
         size: self.texture_size
-        pos: 450, root.height - 135
-
-    Label:
-        text: "🎵 Sample Track"
-        font_size: 28
-        color: 1, 1, 1, 1
-        size_hint: None, None
-        size: self.texture_size
-        pos: 40, root.height - 170
+        pos: 460, root.height - 135
 
     Slider:
         min: 0
@@ -51,33 +49,3 @@
         size: 400, 30
         pos: 40, root.height - 230
 
-    Button:
-        text: "⏮"
-        font_size: 24
-        size_hint: None, None
-        size: 80, 80
-        pos: 40, root.height - 340
-
-    Button:
-        text: "▶️"
-        font_size: 24
-        size_hint: None, None
-        size: 80, 80
-        pos: 140, root.height - 340
-        on_press: root.play()
-
-    Button:
-        text: "⏭"
-        font_size: 24
-        size_hint: None, None
-        size: 80, 80
-        pos: 240, root.height - 340
-
-    Button:
-        text: "🚨 STOP"
-        font_size: 18
-        size_hint: None, None
-        size: 300, 50
-        pos: 40, root.height - 420
-        background_color: 1, 0.3, 0.2, 1
-        on_press: root.stop()
