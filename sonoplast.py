@@ -1,8 +1,12 @@
 from kivy.app import App
-from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.floatlayout import FloatLayout
+from kivy.core.window import Window
 
+Window.original_size = (1280, 720)
+Window.resizable = False
+Window.title = "Sonoplast"
 
-class SonoplastUI(BoxLayout):
+class SonoplastUI(FloatLayout):
     def play(self):
         print("<INFO> Play pressed")
 
