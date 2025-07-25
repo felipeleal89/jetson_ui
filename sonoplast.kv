@@ -1,0 +1,126 @@
+<MainUI>:
+    orientation: "vertical"
+    padding: 30
+    spacing: 20
+
+    canvas.before:
+        Color:
+            rgba: 0.05, 0.05, 0.1, 1  # fundo escuro
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    Label:
+        text: "Sonoplast"
+        font_size: 40
+        bold: True
+        color: 1, 0.5, 1, 1
+        size_hint_y: None
+        height: 50
+
+    Label:
+        text: "Professional Music Player"
+        font_size: 20
+        color: 0.7, 0.7, 0.7, 1
+        size_hint_y: None
+        height: 30
+
+    BoxLayout:
+        orientation: "horizontal"
+        spacing: 10
+        size_hint_y: None
+        height: 120
+
+        Label:
+            text: "🎵"
+            font_size: 64
+            size_hint_x: None
+            width: 100
+
+        BoxLayout:
+            orientation: "vertical"
+            Label:
+                text: "Sample Track"
+                font_size: 24
+                color: 1, 1, 1, 1
+            Label:
+                text: "Sonoplast Demo"
+                font_size: 16
+                color: 0.7, 0.7, 0.7, 1
+
+    Slider:
+        min: 0
+        max: 100
+        value: 20
+        size_hint_y: None
+        height: 40
+
+    BoxLayout:
+        orientation: "horizontal"
+        size_hint_y: None
+        height: 60
+        spacing: 20
+
+        Button:
+            text: "⏮"
+            font_size: 24
+
+        Button:
+            text: "▶️"
+            font_size: 24
+            background_color: 1, 0.4, 1, 1
+            on_press: root.play()
+
+        Button:
+            text: "⏭"
+            font_size: 24
+
+    BoxLayout:
+        orientation: "horizontal"
+        size_hint_y: None
+        height: 40
+
+        Label:
+            text: "🔊"
+            size_hint_x: None
+            width: 40
+
+        Slider:
+            min: 0
+            max: 100
+            value: 50
+
+    Button:
+        text: "🚨 EMERGENCY STOP"
+        background_color: 1, 0.3, 0.2, 1
+        font_size: 18
+        size_hint_y: None
+        height: 50
+        on_press: root.stop()
+
+    TextInput:
+        hint_text: "Search tracks..."
+        size_hint_y: None
+        height: 40
+        foreground_color: 1, 1, 1, 1
+        background_color: 0.2, 0.2, 0.3, 1
+        cursor_color: 1, 1, 1, 1
+
+    Label:
+        text: "Queue"
+        color: 1, 0.5, 1, 1
+        size_hint_y: None
+        height: 30
+
+    BoxLayout:
+        orientation: "vertical"
+        size_hint_y: None
+        height: 100
+
+        Label:
+            text: "Sample Track - Sonoplast Demo"
+            color: 1, 1, 1, 1
+
+        Label:
+            text: "Electronic Vibes - Digital Artist"
+            color: 0.8, 0.8, 0.8, 1

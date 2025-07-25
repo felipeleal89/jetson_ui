@@ -1,0 +1,22 @@
+[project]
+name = "jetson-ui"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "certifi>=2025.7.14",
+    "charset-normalizer>=3.4.2",
+    "docutils>=0.21.2",
+    "filetype>=1.2.0",
+    "idna>=3.10",
+    "kivy>=2.3.1",
+    "kivy-garden>=0.1.5",
+    "pillow>=11.3.0",
+    "pip>=25.1.1",
+    "platformdirs>=4.3.8",
+    "pygments>=2.19.2",
+    "requests>=2.32.4",
+    "setuptools>=80.9.0",
+    "urllib3>=2.5.0",
+]
