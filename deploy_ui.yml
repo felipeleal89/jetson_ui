@@ -12,7 +12,7 @@
       ansible.builtin.git:
         repo: 'https://github.com/felipeleal89/jetson_ui.git'
         dest: /home/nanoql/jetson_ui
-        version: sonoplast
+        version: main
         force: yes
         update: yes
 
