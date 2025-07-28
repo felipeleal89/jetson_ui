@@ -3,14 +3,26 @@
         Color:
             rgba: 0.15, 0, 0.18, 1
         Rectangle:
-            pos: self.pos
-            size: self.size
+            pos: 0, 720
+            size: 1280, 720
     
-    PlayButton:
+    ReverseButton:
+        source: "images/rev_dis.png"
         size_hint: None, None
-        size: 100, 100
-        pos: 580, root.height - 450
+        size: 200, 200
+        pos: 240, root.height - 560  # centralizado para 1280x720
 
+    PlayButton:
+        source: "images/play.png"
+        size_hint: None, None
+        size: 200, 200
+        pos: 540, root.height - 560  # centralizado para 1280x720
+
+    ForwardButton:
+        source: "images/forw_dis.png"
+        size_hint: None, None
+        size: 200, 200
+        pos: 840, root.height - 560  # centralizado para 1280x720
 
     Label:
         text: "Sono"
