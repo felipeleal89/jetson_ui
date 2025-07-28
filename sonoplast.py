@@ -8,7 +8,7 @@ from kivy.uix.button import ButtonBehavior
 Window.size = (1280, 720)
 Window.title = "SonoBlast"
 Window.borderless = True
-Window.fullscreen = True
+#Window.fullscreen = True
 
 
 class PlayButton(ButtonBehavior, Image):

@@ -1,3 +1,31 @@
+<VolumeButton@ButtonBehavior+Image>:
+    size_hint: None, None
+    size: 100, 100
+
+<VolumeSlider@Slider>:
+    min: 0
+    max: 10
+    value: 5
+    step: 1
+    size_hint: None, None
+    size: 600, 10
+    canvas.before:
+    cursor_size: 0, 0
+    disabled: True
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+        Color:
+            rgba: 1, 0.5, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: (self.width * (self.value - self.min) / float(self.max - self.min), self.height)
+
+
 <SonoplastUI>:
     canvas.before:
         Color:
@@ -53,11 +81,23 @@
         size: self.texture_size
         pos: 460, root.height - 135
 
-    Slider:
-        min: 0
-        max: 100
-        value: 20
-        size_hint: None, None
-        size: 400, 30
-        pos: 40, root.height - 230
+    VolumeButton:
+        id: vol_down
+        source: "images/vol_down.png"
+        pos: 250 - 50, root.height - 675
+        on_release:
+            if volume_slider.value > volume_slider.min: volume_slider.value -= 1
+
+    VolumeSlider:
+        id: volume_slider
+        pos: 330, root.height - 680 + 50
+        color: ''
+
+    VolumeButton:
+        id: vol_up
+        source: "images/vol_up.png"
+        pos: 940 + 50, root.height - 675
+        on_release:
+            if volume_slider.value < volume_slider.max: volume_slider.value += 1
+
 
