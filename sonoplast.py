@@ -91,7 +91,14 @@ class PlayButton(ButtonBehavior, Image):
         self.state_on = not self.state_on
         self.source = "images/pause.png" if self.state_on else "images/play.png"
 
-
+class Cover(ButtonBehavior, Image):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.state_on = False
+        self.source = "images/dots.png"
+        self.size_hint = (None, None)
+        self.size = (200, 200)
+        
 class ReverseButton(ButtonBehavior, Image):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -141,9 +148,11 @@ class SonoplastUI(FloatLayout):
         self.rev_btn = ReverseButton(pos=(240, self.height - 560))
         self.play_btn = PlayButton(pos=(540, self.height - 560))
         self.fwd_btn = ForwardButton(pos=(840, self.height - 560))
+        self.cover_btn = Cover(pos=(640-150, self.height - 300))
         self.add_widget(self.rev_btn)
         self.add_widget(self.play_btn)
         self.add_widget(self.fwd_btn)
+        self.add_widget(self.cover_btn)
 
         # Add labels
         self.sono_label = Label(
@@ -211,6 +220,7 @@ class SonoplastUI(FloatLayout):
         self.vol_down.pos = (20, self.height - 675)
         self.vol_up.pos = (1160, self.height - 675)
         self.track_slider.pos = (400, self.height - 400)
+        self.cover_btn.pos = (640-100, self.height - 360)
 
         # Update label positions after texture updates
         self.sono_label.texture_update()
