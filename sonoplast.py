@@ -10,8 +10,7 @@ from kivy.graphics import Color, Rectangle
 # Configure window dimensions and style
 Window.size = (1280, 720)
 Window.title = "SonoBlast"
-Window.borderless = True
-# Window.fullscreen = True  # Uncomment for fullscreen on deploy
+Window.fullscreen = True  # Uncomment for fullscreen on deploy
 
 # Image-based button with fixed size (used for volume control)
 class VolumeButton(ButtonBehavior, Image):
