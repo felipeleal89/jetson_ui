@@ -7,8 +7,19 @@ from kivy.uix.label import Label
 from kivy.uix.slider import Slider
 from kivy.graphics import Color, Rectangle
 
+# Global constants
+GRID_SIZE = 20
+SMALL_ASSET_SIZE = 50
+MEDIUM_ASSET_SIZE = 100
+LARGE_ASSET_SIZE = 150
+EXTRA_LARGE_ASSET_SIZE = 200
+WINDOW_SIZE_X = 1280
+WINDOW_SIZE_Y = 720
+MARGIN = 5
+
+
 # Configure window dimensions and style
-Window.size = (1280, 720)
+Window.size = (WINDOW_SIZE_X, WINDOW_SIZE_Y)
 Window.title = "SonoBlast"
 Window.fullscreen = True  # Uncomment for fullscreen on deploy
 
@@ -17,7 +28,7 @@ class VolumeButton(ButtonBehavior, Image):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.size_hint = (None, None)
-        self.size = (100, 100)
+        self.size = (SMALL_ASSET_SIZE, SMALL_ASSET_SIZE)
 
 
 # Custom volume slider: visually styled with no cursor
@@ -85,7 +96,7 @@ class PlayButton(ButtonBehavior, Image):
         self.state_on = False
         self.source = "images/play.png"
         self.size_hint = (None, None)
-        self.size = (150, 150)
+        self.size = (120, 120)
 
     def on_press(self):
         self.state_on = not self.state_on
@@ -105,7 +116,7 @@ class ReverseButton(ButtonBehavior, Image):
         self.state_on = False
         self.source = "images/rev_dis.png"
         self.size_hint = (None, None)
-        self.size = (150, 150)
+        self.size = (120, 120)
 
     def on_press(self):
         self.state_on = not self.state_on
@@ -122,7 +133,7 @@ class ForwardButton(ButtonBehavior, Image):
         self.state_on = False
         self.source = "images/forw_dis.png"
         self.size_hint = (None, None)
-        self.size = (150, 150)
+        self.size = (120, 120)
 
     def on_press(self):
         self.state_on = not self.state_on
@@ -216,11 +227,11 @@ class SonoplastUI(FloatLayout):
         self.rev_btn.pos = (560 - 180, self.height - 590)
         self.play_btn.pos = (560 ,self.height - 590)
         self.fwd_btn.pos = (560 + 180, self.height - 590)
-        self.volume_slider.pos = (150, self.height - 630)
-        self.vol_down.pos = (20, self.height - 675)
-        self.vol_up.pos = (1160, self.height - 675)
+        self.volume_slider.pos = (125, self.height - 630)
+        self.vol_down.pos = (MARGIN, self.height - WINDOW_SIZE_Y - MARGIN - self.vol_down.height)
+        self.vol_up.pos = (WINDOW_SIZE_X - MARGIN - self.vol_up.width, self.height - WINDOW_SIZE_Y - MARGIN - self.vol_up.height)
         self.track_slider.pos = (400, self.height - 400)
-        self.cover_btn.pos = (640-100, self.height - 360)
+        self.cover_btn.pos = (540, self.height - 360)
 
         # Update label positions after texture updates
         self.sono_label.texture_update()
