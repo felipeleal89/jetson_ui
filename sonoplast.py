@@ -199,11 +199,11 @@ class SonoplastUI(FloatLayout):
         self.volume_slider = VolumeSlider(pos=(340, self.height - 680))
         self.add_widget(self.volume_slider)
 
-        self.vol_down = VolumeButton(source="images/vol_down.png", pos=(200, self.height - 675))
+        self.vol_down = VolumeButton(source="images/vol_down.png", pos=(MARGIN, WINDOW_SIZE_Y - MARGIN - self.height))
         self.vol_down.bind(on_release=lambda _: self.adjust_volume(-1))
         self.add_widget(self.vol_down)
 
-        self.vol_up = VolumeButton(source="images/vol_up.png", pos=(1040, self.height - 675))
+        self.vol_up = VolumeButton(source="images/vol_up.png", pos=(WINDOW_SIZE_X - MARGIN - self.width, WINDOW_SIZE_Y - MARGIN - self.height))
         self.vol_up.bind(on_release=lambda _: self.adjust_volume(1))
         self.add_widget(self.vol_up)
 
