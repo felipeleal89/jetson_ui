@@ -228,8 +228,8 @@ class SonoplastUI(FloatLayout):
         self.play_btn.pos = (560 ,self.height - 590)
         self.fwd_btn.pos = (560 + 180, self.height - 590)
         self.volume_slider.pos = (125, self.height - 630)
-        self.vol_down.pos = (MARGIN, self.height - WINDOW_SIZE_Y - MARGIN - self.vol_down.height)
-        self.vol_up.pos = (WINDOW_SIZE_X - MARGIN - self.vol_up.width, self.height - WINDOW_SIZE_Y - MARGIN - self.vol_up.height)
+        self.vol_down.pos = (MARGIN, self.height - (WINDOW_SIZE_Y - MARGIN - self.vol_down.height))
+        self.vol_up.pos = ((WINDOW_SIZE_X - MARGIN - self.vol_up.width), self.height - (WINDOW_SIZE_Y - MARGIN - self.vol_up.height))
         self.track_slider.pos = (400, self.height - 400)
         self.cover_btn.pos = (540, self.height - 360)
 
