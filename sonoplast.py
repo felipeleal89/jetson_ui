@@ -43,7 +43,7 @@ class VolumeSlider(Slider):
         self.value = 5
         self.step = 1
         self.size_hint = (None, None)
-        self.size = (GRID_SIZE * 12, GRID_SIZE // 8)
+        self.size = (GRID_SIZE * 4, GRID_SIZE // 8)
         self.cursor_size = (0, 0)
         self.disabled = True
 
@@ -209,7 +209,7 @@ class SonoplastUI(FloatLayout):
         self.add_widget(self.time_fim_label)
 
         # === Volume Controls ===
-        self.volume_slider = VolumeSlider(pos=(center_x + (GRID_SIZE * 6), SECTOR_TRACK_Y + MEDIUM_ASSET_SIZE / 2))
+        self.volume_slider = VolumeSlider(pos=(center_x + (GRID_SIZE * 8), SECTOR_TRACK_Y + SMALL_ASSET_SIZE / 1.3))
         self.add_widget(self.volume_slider)
 
         self.vol_up = VolumeButton(source="images/vol_up.png", pos=(center_x + (GRID_SIZE * 10), SECTOR_TRACK_Y + (SMALL_ASSET_SIZE / 2)))
