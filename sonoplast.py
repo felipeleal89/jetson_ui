@@ -8,10 +8,10 @@ from kivy.uix.slider import Slider
 from kivy.graphics import Color, Rectangle
 
 # === Global constants ===
-GRID_SIZE = 30                         #MAX 35
-SMALL_ASSET_SIZE = GRID_SIZE * 2           
-MEDIUM_ASSET_SIZE = GRID_SIZE * 2          
-LARGE_ASSET_SIZE = GRID_SIZE * 4        
+GRID_SIZE = 40                      
+SMALL_ASSET_SIZE = GRID_SIZE * 1.5          
+MEDIUM_ASSET_SIZE = GRID_SIZE * 3        
+LARGE_ASSET_SIZE = GRID_SIZE * 5        
 EXTRA_LARGE_ASSET_SIZE = GRID_SIZE * 8      
 WINDOW_SIZE_X = 1280
 WINDOW_SIZE_Y = 720
@@ -21,7 +21,7 @@ MARGIN = GRID_SIZE // 2
 SECTOR_TITLE_Y = (GRID_SIZE * 17)
 SECTOR_COVER_Y =  SECTOR_TITLE_Y - (GRID_SIZE * 10)
 SECTOR_TRACK_Y = SECTOR_COVER_Y - (GRID_SIZE * 1)
-SECTOR_CONTROLS_Y = SECTOR_TRACK_Y - (GRID_SIZE * 2.5)
+SECTOR_CONTROLS_Y = SECTOR_TRACK_Y - (GRID_SIZE * 5)
 SECTOR_VOLUME_Y = SECTOR_CONTROLS_Y - (GRID_SIZE * 2.5)
 
 Window.size = (WINDOW_SIZE_X, WINDOW_SIZE_Y)
@@ -94,7 +94,7 @@ class PlayButton(ButtonBehavior, Image):
         self.state_on = False
         self.source = "images/play.png"
         self.size_hint = (None, None)
-        self.size = (MEDIUM_ASSET_SIZE, MEDIUM_ASSET_SIZE)
+        self.size = (LARGE_ASSET_SIZE, LARGE_ASSET_SIZE)
 
     def on_press(self):
         self.state_on = not self.state_on
@@ -154,10 +154,10 @@ class SonoplastUI(FloatLayout):
         center_x = WINDOW_SIZE_X // 2
 
         # === Controls ===
-        self.rev_btn = ReverseButton(pos=(center_x - (GRID_SIZE * 5) - (MEDIUM_ASSET_SIZE // 2), SECTOR_CONTROLS_Y))
-        self.play_btn = PlayButton(pos=(center_x - (MEDIUM_ASSET_SIZE // 2), SECTOR_CONTROLS_Y))
-        self.fwd_btn = ForwardButton(pos=(center_x + (GRID_SIZE * 5) - (MEDIUM_ASSET_SIZE // 2), SECTOR_CONTROLS_Y))
-        self.cover_btn = Cover(pos=(center_x - (EXTRA_LARGE_ASSET_SIZE // 2), SECTOR_COVER_Y))
+        self.rev_btn = ReverseButton(pos=(center_x - (LARGE_ASSET_SIZE / 2) - (MEDIUM_ASSET_SIZE) - GRID_SIZE, SECTOR_CONTROLS_Y + (LARGE_ASSET_SIZE / 2) - (MEDIUM_ASSET_SIZE / 2)))
+        self.play_btn = PlayButton(pos=(center_x - (LARGE_ASSET_SIZE / 2), SECTOR_CONTROLS_Y))
+        self.fwd_btn = ForwardButton(pos=(center_x + (LARGE_ASSET_SIZE / 2) + GRID_SIZE, SECTOR_CONTROLS_Y + (LARGE_ASSET_SIZE / 2) - (MEDIUM_ASSET_SIZE / 2)))
+        self.cover_btn = Cover(pos=(center_x - (EXTRA_LARGE_ASSET_SIZE / 2), SECTOR_COVER_Y))
 
         self.add_widget(self.rev_btn)
         self.add_widget(self.play_btn)
