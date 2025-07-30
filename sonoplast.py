@@ -8,21 +8,20 @@ from kivy.uix.slider import Slider
 from kivy.graphics import Color, Rectangle
 
 # === Global constants ===
-GRID_SIZE = 40                      
+GRID_SIZE = 40                          # original size 40                   
 SMALL_ASSET_SIZE = GRID_SIZE * 1.5          
 MEDIUM_ASSET_SIZE = GRID_SIZE * 3        
 LARGE_ASSET_SIZE = GRID_SIZE * 5        
-EXTRA_LARGE_ASSET_SIZE = GRID_SIZE * 8      
+EXTRA_LARGE_ASSET_SIZE = GRID_SIZE * 6      
 WINDOW_SIZE_X = 1280
 WINDOW_SIZE_Y = 720
 MARGIN = GRID_SIZE // 2
 
 # Vertical sectors (from top down)
 SECTOR_TITLE_Y = (GRID_SIZE * 17)
-SECTOR_COVER_Y =  SECTOR_TITLE_Y - (GRID_SIZE * 10)
-SECTOR_TRACK_Y = SECTOR_COVER_Y - (GRID_SIZE * 1)
-SECTOR_CONTROLS_Y = SECTOR_TRACK_Y - (GRID_SIZE * 5)
-SECTOR_VOLUME_Y = SECTOR_CONTROLS_Y - (GRID_SIZE * 2.5)
+SECTOR_COVER_Y =  SECTOR_TITLE_Y - (GRID_SIZE * 9.5)
+SECTOR_CONTROLS_Y = SECTOR_COVER_Y - (GRID_SIZE * 5.5)
+SECTOR_TRACK_Y = SECTOR_CONTROLS_Y - (GRID_SIZE * 2)
 
 Window.size = (WINDOW_SIZE_X, WINDOW_SIZE_Y)
 Window.title = "SonoBlast"
@@ -188,39 +187,59 @@ class SonoplastUI(FloatLayout):
             color=(1, 1, 1, 1),
             size_hint=(None, None),
         )
+        self.time_label = Label(
+            text="00:00",
+            font_size=GRID_SIZE / 1.5,
+            font_name="fonts/RobotoCondensed-Regular.ttf",
+            color=(1, 1, 1, 1),
+            size_hint=(None, None),
+        )
+        self.time_fim_label = Label(
+            text="00:00",
+            font_size=GRID_SIZE / 1.5,
+            font_name="fonts/RobotoCondensed-Regular.ttf",
+            color=(1, 1, 1, 1),
+            size_hint=(None, None),
+        )
 
         self.add_widget(self.sono_label)
         self.add_widget(self.blast_label)
         self.add_widget(self.desc_label)
+        self.add_widget(self.time_label)
+        self.add_widget(self.time_fim_label)
 
         # === Volume Controls ===
-        self.vol_down = VolumeButton(source="images/vol_down.png", pos=(center_x - (GRID_SIZE * 8) - SMALL_ASSET_SIZE, SECTOR_VOLUME_Y))
-        self.vol_down.bind(on_release=lambda _: self.adjust_volume(-1))
-        self.add_widget(self.vol_down)
-
-        self.volume_slider = VolumeSlider(pos=(center_x - (GRID_SIZE * 6), SECTOR_VOLUME_Y + MEDIUM_ASSET_SIZE // 2))
+        self.volume_slider = VolumeSlider(pos=(center_x + (GRID_SIZE * 6), SECTOR_TRACK_Y + MEDIUM_ASSET_SIZE / 2))
         self.add_widget(self.volume_slider)
 
-        self.vol_up = VolumeButton(source="images/vol_up.png", pos=(center_x + (GRID_SIZE * 8), SECTOR_VOLUME_Y))
+        self.vol_up = VolumeButton(source="images/vol_up.png", pos=(center_x + (GRID_SIZE * 10), SECTOR_TRACK_Y + (SMALL_ASSET_SIZE / 2)))
         self.vol_up.bind(on_release=lambda _: self.adjust_volume(1))
         self.add_widget(self.vol_up)
 
         # === Track Slider ===
-        self.track_slider = TrackSlider(pos=(center_x - (GRID_SIZE * 6), SECTOR_TRACK_Y))
+        self.track_slider = TrackSlider(pos=(center_x - (GRID_SIZE * 6), SECTOR_TRACK_Y + SMALL_ASSET_SIZE / 1.3))
         self.add_widget(self.track_slider)
 
         # === Final label positioning ===
         self.sono_label.texture_update()
         self.blast_label.texture_update()
         self.desc_label.texture_update()
+        self.time_label.texture_update()
+        self.time_fim_label.texture_update()
 
         self.sono_label.size = self.sono_label.texture_size
         self.blast_label.size = self.blast_label.texture_size
         self.desc_label.size = self.desc_label.texture_size
+        self.time_label.size = self.time_label.texture_size
+        self.time_fim_label.size = self.time_fim_label.texture_size
 
-        self.sono_label.pos = (center_x - self.sono_label.width, SECTOR_TITLE_Y)
-        self.blast_label.pos = (self.sono_label.right, SECTOR_TITLE_Y)
-        self.desc_label.pos = (center_x - (self.desc_label.width // 2), SECTOR_TITLE_Y - GRID_SIZE)
+        self.sono_label.pos = (center_x - self.sono_label.width, SECTOR_TITLE_Y - self.sono_label.height + GRID_SIZE)
+        self.blast_label.pos = (self.sono_label.right, SECTOR_TITLE_Y - self.blast_label.height + GRID_SIZE)
+        self.desc_label.pos = (center_x - (self.desc_label.width / 2), SECTOR_TITLE_Y - self.blast_label.height)
+        self.time_label.pos = (center_x - self.track_slider.width / 2 - self.time_label.width - GRID_SIZE / 2, SECTOR_TRACK_Y + self.time_label.height)
+        self.time_fim_label.pos = (center_x + self.track_slider.width / 2 + GRID_SIZE / 2, SECTOR_TRACK_Y + self.time_fim_label.height)
+
+        self.bind(pos=self.update_bg, size=self.update_bg)
 
     def update_bg(self, *args):
         self.bg_rect.pos = self.pos
