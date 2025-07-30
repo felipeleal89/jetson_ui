@@ -8,24 +8,21 @@ from kivy.uix.slider import Slider
 from kivy.graphics import Color, Rectangle
 
 # === Global constants ===
-GRID_SIZE = 20
-
-SMALL_ASSET_SIZE = GRID_SIZE * 2            # 80
-MEDIUM_ASSET_SIZE = GRID_SIZE * 2           # 100
-LARGE_ASSET_SIZE = GRID_SIZE * 4            # 180
-EXTRA_LARGE_ASSET_SIZE = GRID_SIZE * 5      # 220
-
+GRID_SIZE = 40
+SMALL_ASSET_SIZE = GRID_SIZE * 2           
+MEDIUM_ASSET_SIZE = GRID_SIZE * 2          
+LARGE_ASSET_SIZE = GRID_SIZE * 4        
+EXTRA_LARGE_ASSET_SIZE = GRID_SIZE * 8      
 WINDOW_SIZE_X = 1280
 WINDOW_SIZE_Y = 720
 MARGIN = GRID_SIZE // 2
 
 # Vertical sectors (from top down)
 SECTOR_TITLE_Y = (GRID_SIZE * 17)
-SECTOR_COVER_Y =  SECTOR_TITLE_Y - (GRID_SIZE * 7)
-SECTOR_TRACK_Y = SECTOR_COVER_Y - (GRID_SIZE * 1.5)
-SECTOR_CONTROLS_Y = SECTOR_TRACK_Y - (GRID_SIZE * 6.5)
-SECTOR_VOLUME_Y = SECTOR_CONTROLS_Y - (GRID_SIZE * 1.5)
-
+SECTOR_COVER_Y =  SECTOR_TITLE_Y - (GRID_SIZE * 10)
+SECTOR_TRACK_Y = SECTOR_COVER_Y - (GRID_SIZE * 1)
+SECTOR_CONTROLS_Y = SECTOR_TRACK_Y - (GRID_SIZE * 2.5)
+SECTOR_VOLUME_Y = SECTOR_CONTROLS_Y - (GRID_SIZE * 2.5)
 
 Window.size = (WINDOW_SIZE_X, WINDOW_SIZE_Y)
 Window.title = "SonoBlast"
@@ -47,10 +44,7 @@ class VolumeSlider(Slider):
         self.value = 5
         self.step = 1
         self.size_hint = (None, None)
-        self.size = (
-            WINDOW_SIZE_X - (MARGIN * 2 + GRID_SIZE * 2 + SMALL_ASSET_SIZE * 2),
-            GRID_SIZE // 6
-        )
+        self.size = (GRID_SIZE * 12, GRID_SIZE // 8)
         self.cursor_size = (0, 0)
         self.disabled = True
 
@@ -76,7 +70,7 @@ class TrackSlider(Slider):
         self.value = 20
         self.step = 1
         self.size_hint = (None, None)
-        self.size = (GRID_SIZE * 12, GRID_SIZE // 5)
+        self.size = (GRID_SIZE * 12, GRID_SIZE // 8)
         self.cursor_size = (0, 0)
         self.disabled = True
 
@@ -100,7 +94,7 @@ class PlayButton(ButtonBehavior, Image):
         self.state_on = False
         self.source = "images/play.png"
         self.size_hint = (None, None)
-        self.size = (LARGE_ASSET_SIZE, LARGE_ASSET_SIZE)
+        self.size = (MEDIUM_ASSET_SIZE, MEDIUM_ASSET_SIZE)
 
     def on_press(self):
         self.state_on = not self.state_on
@@ -120,7 +114,7 @@ class ReverseButton(ButtonBehavior, Image):
         self.state_on = False
         self.source = "images/rev_dis.png"
         self.size_hint = (None, None)
-        self.size = (LARGE_ASSET_SIZE, LARGE_ASSET_SIZE)
+        self.size = (MEDIUM_ASSET_SIZE, MEDIUM_ASSET_SIZE)
 
     def on_press(self):
         self.state_on = True
@@ -136,7 +130,7 @@ class ForwardButton(ButtonBehavior, Image):
         self.state_on = False
         self.source = "images/forw_dis.png"
         self.size_hint = (None, None)
-        self.size = (LARGE_ASSET_SIZE, LARGE_ASSET_SIZE)
+        self.size = (MEDIUM_ASSET_SIZE, MEDIUM_ASSET_SIZE)
 
     def on_press(self):
         self.state_on = True
@@ -160,9 +154,9 @@ class SonoplastUI(FloatLayout):
         center_x = WINDOW_SIZE_X // 2
 
         # === Controls ===
-        self.rev_btn = ReverseButton(pos=(center_x - (GRID_SIZE * 5) - (LARGE_ASSET_SIZE // 2), SECTOR_CONTROLS_Y))
-        self.play_btn = PlayButton(pos=(center_x - (LARGE_ASSET_SIZE // 2), SECTOR_CONTROLS_Y))
-        self.fwd_btn = ForwardButton(pos=(center_x + (GRID_SIZE * 5) - (LARGE_ASSET_SIZE // 2), SECTOR_CONTROLS_Y))
+        self.rev_btn = ReverseButton(pos=(center_x - (GRID_SIZE * 5) - (MEDIUM_ASSET_SIZE // 2), SECTOR_CONTROLS_Y))
+        self.play_btn = PlayButton(pos=(center_x - (MEDIUM_ASSET_SIZE // 2), SECTOR_CONTROLS_Y))
+        self.fwd_btn = ForwardButton(pos=(center_x + (GRID_SIZE * 5) - (MEDIUM_ASSET_SIZE // 2), SECTOR_CONTROLS_Y))
         self.cover_btn = Cover(pos=(center_x - (EXTRA_LARGE_ASSET_SIZE // 2), SECTOR_COVER_Y))
 
         self.add_widget(self.rev_btn)
@@ -204,13 +198,10 @@ class SonoplastUI(FloatLayout):
         self.vol_down.bind(on_release=lambda _: self.adjust_volume(-1))
         self.add_widget(self.vol_down)
 
-        self.volume_slider = VolumeSlider(pos=(MARGIN + SMALL_ASSET_SIZE + GRID_SIZE, SECTOR_VOLUME_Y + SMALL_ASSET_SIZE // 4))
+        self.volume_slider = VolumeSlider(pos=(center_x - (GRID_SIZE * 6), SECTOR_VOLUME_Y + MEDIUM_ASSET_SIZE // 2))
         self.add_widget(self.volume_slider)
 
-        self.vol_up = VolumeButton(
-            source="images/vol_up.png",
-            pos=(WINDOW_SIZE_X - MARGIN - SMALL_ASSET_SIZE, SECTOR_VOLUME_Y)
-        )
+        self.vol_up = VolumeButton(source="images/vol_up.png", pos=(WINDOW_SIZE_X - MARGIN - SMALL_ASSET_SIZE, SECTOR_VOLUME_Y))
         self.vol_up.bind(on_release=lambda _: self.adjust_volume(1))
         self.add_widget(self.vol_up)
 
