@@ -7,31 +7,37 @@ from kivy.uix.label import Label
 from kivy.uix.slider import Slider
 from kivy.graphics import Color, Rectangle
 
-# Global constants
+# === Global constants ===
 GRID_SIZE = 40
-SMALL_ASSET_SIZE = 80
-MEDIUM_ASSET_SIZE = 100
-LARGE_ASSET_SIZE = 160
-EXTRA_LARGE_ASSET_SIZE = 200
+
+SMALL_ASSET_SIZE = GRID_SIZE * 2        # 80
+MEDIUM_ASSET_SIZE = GRID_SIZE * 2.5     # 100
+LARGE_ASSET_SIZE = GRID_SIZE * 4        # 160
+EXTRA_LARGE_ASSET_SIZE = GRID_SIZE * 5  # 200
+
 WINDOW_SIZE_X = 1280
 WINDOW_SIZE_Y = 720
-MARGIN = 20
+MARGIN = GRID_SIZE // 2
 
+# Vertical sectors (from top down)
+SECTOR_TITLE_Y = WINDOW_SIZE_Y - (GRID_SIZE * 2)
+SECTOR_COVER_Y = WINDOW_SIZE_Y - (EXTRA_LARGE_ASSET_SIZE + GRID_SIZE * 4)
+SECTOR_CONTROLS_Y = WINDOW_SIZE_Y - (LARGE_ASSET_SIZE + GRID_SIZE * 2)
+SECTOR_VOLUME_Y = WINDOW_SIZE_Y - (MARGIN + SMALL_ASSET_SIZE)
+SECTOR_TRACK_Y = GRID_SIZE * 2
 
-# Configure window dimensions and style
 Window.size = (WINDOW_SIZE_X, WINDOW_SIZE_Y)
 Window.title = "SonoBlast"
 Window.fullscreen = True  # Uncomment for fullscreen on deploy
 
-# Image-based button with fixed size (used for volume control)
+# === Custom UI Components ===
+
 class VolumeButton(ButtonBehavior, Image):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.size_hint = (None, None)
         self.size = (SMALL_ASSET_SIZE, SMALL_ASSET_SIZE)
 
-
-# Custom volume slider: visually styled with no cursor
 class VolumeSlider(Slider):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -40,16 +46,18 @@ class VolumeSlider(Slider):
         self.value = 5
         self.step = 1
         self.size_hint = (None, None)
-        self.size = (WINDOW_SIZE_X - ( MARGIN * 2 + GRID_SIZE * 2 + SMALL_ASSET_SIZE * 2), 6)
+        self.size = (
+            WINDOW_SIZE_X - (MARGIN * 2 + GRID_SIZE * 2 + SMALL_ASSET_SIZE * 2),
+            GRID_SIZE // 6
+        )
         self.cursor_size = (0, 0)
-        self.disabled = True  # Disable direct touch
+        self.disabled = True
 
-        # Custom canvas for white track and pink fill
         with self.canvas.before:
-            self.bg_color = Color(1, 1, 1, 1)  # white background
+            self.bg_color = Color(1, 1, 1, 1)
             self.bg_rect = Rectangle(pos=self.pos, size=self.size)
-            self.fg_color = Color(1, 0.5, 1, 1)  # pink progress
-            self.fg_rect = Rectangle(pos=self.pos, size=(self.width * ((self.value - self.min) / float(self.max - self.min)), self.height))
+            self.fg_color = Color(1, 0.5, 1, 1)
+            self.fg_rect = Rectangle(pos=self.pos, size=(self.width * (self.value / self.max), self.height))
 
         self.bind(pos=self.update_canvas, size=self.update_canvas, value=self.update_canvas)
 
@@ -59,8 +67,6 @@ class VolumeSlider(Slider):
         self.fg_rect.pos = self.pos
         self.fg_rect.size = (self.width * ((self.value - self.min) / float(self.max - self.min)), self.height)
 
-
-# Custom slider for track progress: enabled and styled
 class TrackSlider(Slider):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -69,16 +75,15 @@ class TrackSlider(Slider):
         self.value = 20
         self.step = 1
         self.size_hint = (None, None)
-        self.size = (480, 8)
+        self.size = (GRID_SIZE * 12, GRID_SIZE // 5)
         self.cursor_size = (0, 0)
-        self.disabled = True  # Disable direct touch
+        self.disabled = True
 
-        # Custom track background and fill
         with self.canvas.before:
-            self.bg_color = Color(1, 1, 1, 1)  # white background
+            self.bg_color = Color(1, 1, 1, 1)
             self.bg_rect = Rectangle(pos=self.pos, size=self.size)
-            self.fg_color = Color(1, 0.5, 1, 1)  # pink progress
-            self.fg_rect = Rectangle(pos=self.pos, size=(self.width * ((self.value - self.min) / float(self.max - self.min)), self.height))
+            self.fg_color = Color(1, 0.5, 1, 1)
+            self.fg_rect = Rectangle(pos=self.pos, size=(self.width * (self.value / self.max), self.height))
 
         self.bind(pos=self.update_canvas, size=self.update_canvas, value=self.update_canvas)
 
@@ -88,15 +93,13 @@ class TrackSlider(Slider):
         self.fg_rect.pos = self.pos
         self.fg_rect.size = (self.width * ((self.value - self.min) / float(self.max - self.min)), self.height)
 
-
-# Custom image buttons
 class PlayButton(ButtonBehavior, Image):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.state_on = False
         self.source = "images/play.png"
         self.size_hint = (None, None)
-        self.size = (120, 120)
+        self.size = (MEDIUM_ASSET_SIZE, MEDIUM_ASSET_SIZE)
 
     def on_press(self):
         self.state_on = not self.state_on
@@ -108,24 +111,23 @@ class Cover(ButtonBehavior, Image):
         self.state_on = False
         self.source = "images/dots.png"
         self.size_hint = (None, None)
-        self.size = (200, 200)
-        
+        self.size = (EXTRA_LARGE_ASSET_SIZE, EXTRA_LARGE_ASSET_SIZE)
+
 class ReverseButton(ButtonBehavior, Image):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.state_on = False
         self.source = "images/rev_dis.png"
         self.size_hint = (None, None)
-        self.size = (120, 120)
+        self.size = (LARGE_ASSET_SIZE, LARGE_ASSET_SIZE)
 
     def on_press(self):
-        self.state_on = not self.state_on
+        self.state_on = True
         self.source = "images/rev_en.png"
 
     def on_release(self):
-        self.state_on = not self.state_on
+        self.state_on = False
         self.source = "images/rev_dis.png"
-
 
 class ForwardButton(ButtonBehavior, Image):
     def __init__(self, **kwargs):
@@ -133,125 +135,112 @@ class ForwardButton(ButtonBehavior, Image):
         self.state_on = False
         self.source = "images/forw_dis.png"
         self.size_hint = (None, None)
-        self.size = (120, 120)
+        self.size = (LARGE_ASSET_SIZE, LARGE_ASSET_SIZE)
 
     def on_press(self):
-        self.state_on = not self.state_on
+        self.state_on = True
         self.source = "images/forw_en.png"
 
     def on_release(self):
-        self.state_on = not self.state_on
+        self.state_on = False
         self.source = "images/forw_dis.png"
 
+# === Main Layout ===
 
-# Main UI container
 class SonoplastUI(FloatLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        # Set background color
         with self.canvas.before:
             Color(0.15, 0, 0.18, 1)
             self.bg_rect = Rectangle(pos=self.pos, size=self.size)
         self.bind(pos=self.update_bg, size=self.update_bg)
 
-        # Add main media buttons
-        self.rev_btn = ReverseButton(pos=(240, self.height - 560))
-        self.play_btn = PlayButton(pos=(540, self.height - 560))
-        self.fwd_btn = ForwardButton(pos=(840, self.height - 560))
-        self.cover_btn = Cover(pos=(640-150, self.height - 300))
+        center_x = WINDOW_SIZE_X // 2
+
+        # === Controls ===
+        self.rev_btn = ReverseButton(pos=(center_x - (LARGE_ASSET_SIZE + GRID_SIZE), SECTOR_CONTROLS_Y))
+        self.play_btn = PlayButton(pos=(center_x - (MEDIUM_ASSET_SIZE // 2), SECTOR_CONTROLS_Y))
+        self.fwd_btn = ForwardButton(pos=(center_x + GRID_SIZE, SECTOR_CONTROLS_Y))
+        self.cover_btn = Cover(pos=(center_x - (EXTRA_LARGE_ASSET_SIZE // 2), SECTOR_COVER_Y))
+
         self.add_widget(self.rev_btn)
         self.add_widget(self.play_btn)
         self.add_widget(self.fwd_btn)
         self.add_widget(self.cover_btn)
 
-        # Add labels
+        # === Labels ===
         self.sono_label = Label(
             text="Sono",
             markup=True,
-            font_size=100,
+            font_size=GRID_SIZE * 2.5,
             font_name="fonts/RobotoCondensed-Regular.ttf",
             color=(1, 0.5, 1, 1),
             size_hint=(None, None),
         )
-        self.add_widget(self.sono_label)
-
         self.blast_label = Label(
             text="Blast",
             markup=True,
-            font_size=100,
+            font_size=GRID_SIZE * 2.5,
             font_name="fonts/RobotoCondensed-ExtraBold.ttf",
             color=(1, 0.5, 1, 1),
             size_hint=(None, None),
         )
-        self.add_widget(self.blast_label)
-
         self.desc_label = Label(
             text="a sonoloplast player_",
-            font_size=32,
+            font_size=GRID_SIZE,
             font_name="fonts/Orbitron-Regular.ttf",
             color=(1, 1, 1, 1),
             size_hint=(None, None),
         )
+
+        self.add_widget(self.sono_label)
+        self.add_widget(self.blast_label)
         self.add_widget(self.desc_label)
 
-        # Volume slider and control buttons
-
-        self.vol_down = VolumeButton(source="images/vol_down.png", pos=(MARGIN, WINDOW_SIZE_Y - MARGIN - self.height))
+        # === Volume Controls ===
+        self.vol_down = VolumeButton(source="images/vol_down.png", pos=(MARGIN, SECTOR_VOLUME_Y))
         self.vol_down.bind(on_release=lambda _: self.adjust_volume(-1))
         self.add_widget(self.vol_down)
 
-        self.volume_slider = VolumeSlider(pos=(self.vol_down.x + GRID_SIZE, self.vol_down.y - self.height + (self.vol_down.height / 2)))
-        self.add_widget(self.volume_slider)  
+        self.volume_slider = VolumeSlider(pos=(MARGIN + SMALL_ASSET_SIZE + GRID_SIZE, SECTOR_VOLUME_Y + SMALL_ASSET_SIZE // 4))
+        self.add_widget(self.volume_slider)
 
-        self.vol_up = VolumeButton(source="images/vol_up.png", pos=(WINDOW_SIZE_X - MARGIN - self.width, self.vol_down.y))
+        self.vol_up = VolumeButton(
+            source="images/vol_up.png",
+            pos=(WINDOW_SIZE_X - MARGIN - SMALL_ASSET_SIZE, SECTOR_VOLUME_Y)
+        )
         self.vol_up.bind(on_release=lambda _: self.adjust_volume(1))
         self.add_widget(self.vol_up)
 
-        # Track progress slider
-        self.track_slider = TrackSlider(pos=(140, self.height - 720 + 20))
+        # === Track Slider ===
+        self.track_slider = TrackSlider(pos=(center_x - (GRID_SIZE * 6), SECTOR_TRACK_Y))
         self.add_widget(self.track_slider)
 
-        self.bind(size=self.reposition_elements)
+        # === Final label positioning ===
+        self.sono_label.texture_update()
+        self.blast_label.texture_update()
+        self.desc_label.texture_update()
 
-    def adjust_volume(self, delta):
-        # Increment or decrement volume
-        new_val = self.volume_slider.value + delta
-        self.volume_slider.value = max(self.volume_slider.min, min(self.volume_slider.max, new_val))
+        self.sono_label.size = self.sono_label.texture_size
+        self.blast_label.size = self.blast_label.texture_size
+        self.desc_label.size = self.desc_label.texture_size
+
+        self.sono_label.pos = (center_x - self.sono_label.width, SECTOR_TITLE_Y)
+        self.blast_label.pos = (self.sono_label.right, self.height - SECTOR_TITLE_Y)
+        self.desc_label.pos = (center_x - (self.desc_label.width // 2), SECTOR_TITLE_Y - GRID_SIZE)
 
     def update_bg(self, *args):
         self.bg_rect.pos = self.pos
         self.bg_rect.size = self.size
 
-    def reposition_elements(self, *args):
-        # Called when window is resized
-        self.rev_btn.pos = (560 - 180, self.height - 590)
-        self.play_btn.pos = (560 ,self.height - 590)
-        self.fwd_btn.pos = (560 + 180, self.height - 590)
-        self.vol_down.pos = (MARGIN, self.height - (WINDOW_SIZE_Y - MARGIN - self.vol_down.height))
-        self.volume_slider.pos = (self.vol_down.x + GRID_SIZE + self.vol_down.width, self.vol_down.y - self.volume_slider.height + (self.vol_down.height / 2))
-        self.vol_up.pos = ((WINDOW_SIZE_X - MARGIN - self.vol_up.width), self.height - (WINDOW_SIZE_Y - MARGIN - self.vol_up.height))
-        self.track_slider.pos = (400, self.height - 400)
-        self.cover_btn.pos = (540, self.height - 360)
-
-        # Update label positions after texture updates
-        self.sono_label.texture_update()
-        self.sono_label.size = self.sono_label.texture_size
-        self.sono_label.pos = (430, self.height - 120)
-
-        self.blast_label.texture_update()
-        self.blast_label.size = self.blast_label.texture_size
-        self.blast_label.pos = (430 + self.sono_label.texture_size[0], self.height - 120)
-
-        self.desc_label.texture_update()
-        self.desc_label.size = self.desc_label.texture_size
-        self.desc_label.pos = (460, self.height - 135)
-
+    def adjust_volume(self, delta):
+        new_val = self.volume_slider.value + delta
+        self.volume_slider.value = max(self.volume_slider.min, min(self.volume_slider.max, new_val))
 
 class SonoplastApp(App):
     def build(self):
         return SonoplastUI()
-
 
 if __name__ == "__main__":
     SonoplastApp().run()
