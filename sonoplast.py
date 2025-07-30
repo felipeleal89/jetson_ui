@@ -8,10 +8,10 @@ from kivy.uix.slider import Slider
 from kivy.graphics import Color, Rectangle
 
 # Global constants
-GRID_SIZE = 20
-SMALL_ASSET_SIZE = 75
+GRID_SIZE = 40
+SMALL_ASSET_SIZE = 80
 MEDIUM_ASSET_SIZE = 100
-LARGE_ASSET_SIZE = 150
+LARGE_ASSET_SIZE = 160
 EXTRA_LARGE_ASSET_SIZE = 200
 WINDOW_SIZE_X = 1280
 WINDOW_SIZE_Y = 720
