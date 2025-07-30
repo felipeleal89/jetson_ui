@@ -69,7 +69,7 @@ class TrackSlider(Slider):
         self.value = 20
         self.step = 1
         self.size_hint = (None, None)
-        self.size = (GRID_SIZE * 10, GRID_SIZE // 8)
+        self.size = (GRID_SIZE * 8, GRID_SIZE // 6)
         self.cursor_size = (0, 0)
         self.disabled = True
 
@@ -217,7 +217,7 @@ class SonoplastUI(FloatLayout):
         self.add_widget(self.vol_up)
 
         # === Track Slider ===
-        self.track_slider = TrackSlider(pos=(center_x - (GRID_SIZE * 6), SECTOR_TRACK_Y + SMALL_ASSET_SIZE / 1.3))
+        self.track_slider = TrackSlider(pos=(center_x - GRID_SIZE * 4, SECTOR_TRACK_Y + SMALL_ASSET_SIZE / 1.3))
         self.add_widget(self.track_slider)
 
         # === Final label positioning ===
