@@ -11,7 +11,7 @@ from kivy.graphics import Color, Rectangle
 GRID_SIZE = 40                          # original size 40                   
 SMALL_ASSET_SIZE = GRID_SIZE * 1.5          
 MEDIUM_ASSET_SIZE = GRID_SIZE * 3        
-LARGE_ASSET_SIZE = GRID_SIZE * 5        
+LARGE_ASSET_SIZE = GRID_SIZE * 4        
 EXTRA_LARGE_ASSET_SIZE = GRID_SIZE * 6      
 WINDOW_SIZE_X = 1280
 WINDOW_SIZE_Y = 720
@@ -38,30 +38,67 @@ class VolumeButton(ButtonBehavior, Image):
 class VolumeSlider(Slider):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.min = 1
-        self.max = 5
+        self.min = 0
+        self.max = 10
         self.value = 5
         self.step = 1
         self.size_hint = (None, None)
-        self.size = (GRID_SIZE * 4, GRID_SIZE // 8)
-        self.cursor_width  = 30
-        self.cursor_height = 30
-        self.cursor_image = ""
-        #self.disabled = False
-
-        with self.canvas.after:
+        self.size = (GRID_SIZE * 6, GRID_SIZE // 4)
+        self.cursor_size = (0 , 0)
+        self.background_width = 0
+        with self.canvas.before:
             self.bg_color = Color(1, 1, 1, 1)
             self.bg_rect = Rectangle(pos=self.pos, size=self.size)
             self.fg_color = Color(1, 0.5, 1, 1)
             self.fg_rect = Rectangle(pos=self.pos, size=(self.width * (self.value / self.max), self.height))
+
+        with self.canvas.after:
+            self.custom_cursor = Rectangle(
+            source="images/cursor.png",  # sua imagem do cursor
+            size=(GRID_SIZE, GRID_SIZE)  # ou (40, 40) se preferir fixo
+        )
+
+        self.bind(pos=self.update_canvas, size=self.update_canvas, value=self.update_canvas)
+
+class VolumeSlider(Slider):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.min = 0
+        self.max = 10
+        self.value = 5
+        self.step = 1
+        self.size_hint = (None, None)
+        self.size = (GRID_SIZE * 6, GRID_SIZE // 4)
+        self.cursor_size = (0, 0)  # desativa cursor padrão
+        self.background_width = 0  # remove fundo padrão
+
+        with self.canvas.before:
+            self.bg_color = Color(1, 1, 1, 1)
+            self.bg_rect = Rectangle(pos=self.pos, size=self.size)
+            self.fg_color = Color(1, 0.5, 1, 1)
+            self.fg_rect = Rectangle(pos=self.pos, size=(self.width * (self.value / self.max), self.height))
+
+        with self.canvas.after:
+            self.custom_cursor = Rectangle(
+                source="images/cursor.png",
+                size=(GRID_SIZE, GRID_SIZE)
+            )
 
         self.bind(pos=self.update_canvas, size=self.update_canvas, value=self.update_canvas)
 
     def update_canvas(self, *args):
         self.bg_rect.pos = self.pos
         self.bg_rect.size = self.size
+
+        progress_width = self.width * ((self.value - self.min) / float(self.max - self.min))
         self.fg_rect.pos = self.pos
-        self.fg_rect.size = (self.width * ((self.value - self.min) / float(self.max - self.min)), self.height)
+        self.fg_rect.size = (progress_width, self.height)
+
+        ratio = (self.value - self.min) / float(self.max - self.min)
+        cursor_x = self.x + ratio * self.width - self.custom_cursor.size[0] / 2
+        cursor_y = self.y + self.height / 2 - self.custom_cursor.size[1] / 2
+        self.custom_cursor.pos = (cursor_x, cursor_y)
+
 
 class TrackSlider(Slider):
     def __init__(self, **kwargs):
@@ -71,8 +108,9 @@ class TrackSlider(Slider):
         self.value = 20
         self.step = 1
         self.size_hint = (None, None)
-        self.size = (GRID_SIZE * 8, GRID_SIZE // 6)
+        self.size = (GRID_SIZE * 8, GRID_SIZE // 4)
         self.cursor_size = (0, 0)
+        self.background_width = 0
         self.disabled = True
 
         with self.canvas.before:
@@ -155,9 +193,9 @@ class SonoplastUI(FloatLayout):
         center_x = WINDOW_SIZE_X // 2
 
         # === Controls ===
-        self.rev_btn = ReverseButton(pos=(center_x - (LARGE_ASSET_SIZE / 2) - (MEDIUM_ASSET_SIZE) - GRID_SIZE, SECTOR_CONTROLS_Y + (LARGE_ASSET_SIZE / 2) - (MEDIUM_ASSET_SIZE / 2)))
+        self.rev_btn = ReverseButton(pos=(center_x - (LARGE_ASSET_SIZE / 2) - (MEDIUM_ASSET_SIZE) - GRID_SIZE/2, SECTOR_CONTROLS_Y + (LARGE_ASSET_SIZE / 2) - (MEDIUM_ASSET_SIZE / 2)))
         self.play_btn = PlayButton(pos=(center_x - (LARGE_ASSET_SIZE / 2), SECTOR_CONTROLS_Y))
-        self.fwd_btn = ForwardButton(pos=(center_x + (LARGE_ASSET_SIZE / 2) + GRID_SIZE, SECTOR_CONTROLS_Y + (LARGE_ASSET_SIZE / 2) - (MEDIUM_ASSET_SIZE / 2)))
+        self.fwd_btn = ForwardButton(pos=(center_x + (LARGE_ASSET_SIZE / 2) + GRID_SIZE/2, SECTOR_CONTROLS_Y + (LARGE_ASSET_SIZE / 2) - (MEDIUM_ASSET_SIZE / 2)))
         self.cover_btn = Cover(pos=(center_x - (EXTRA_LARGE_ASSET_SIZE / 2), SECTOR_COVER_Y))
 
         self.add_widget(self.rev_btn)
