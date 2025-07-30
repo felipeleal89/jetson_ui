@@ -9,7 +9,7 @@ from kivy.graphics import Color, Rectangle
 
 # Global constants
 GRID_SIZE = 20
-SMALL_ASSET_SIZE = 50
+SMALL_ASSET_SIZE = 75
 MEDIUM_ASSET_SIZE = 100
 LARGE_ASSET_SIZE = 150
 EXTRA_LARGE_ASSET_SIZE = 200
