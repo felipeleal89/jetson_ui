@@ -69,7 +69,7 @@ class TrackSlider(Slider):
         self.value = 20
         self.step = 1
         self.size_hint = (None, None)
-        self.size = (GRID_SIZE * 12, GRID_SIZE // 8)
+        self.size = (GRID_SIZE * 10, GRID_SIZE // 8)
         self.cursor_size = (0, 0)
         self.disabled = True
 
