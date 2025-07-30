@@ -38,16 +38,18 @@ class VolumeButton(ButtonBehavior, Image):
 class VolumeSlider(Slider):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.min = 0
-        self.max = 10
+        self.min = 1
+        self.max = 5
         self.value = 5
         self.step = 1
         self.size_hint = (None, None)
         self.size = (GRID_SIZE * 4, GRID_SIZE // 8)
-        self.cursor_size = (0, 0)
-        self.disabled = True
+        self.cursor_width  = 30
+        self.cursor_height = 30
+        self.cursor_image = ""
+        #self.disabled = False
 
-        with self.canvas.before:
+        with self.canvas.after:
             self.bg_color = Color(1, 1, 1, 1)
             self.bg_rect = Rectangle(pos=self.pos, size=self.size)
             self.fg_color = Color(1, 0.5, 1, 1)
