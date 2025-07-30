@@ -15,7 +15,7 @@ LARGE_ASSET_SIZE = 150
 EXTRA_LARGE_ASSET_SIZE = 200
 WINDOW_SIZE_X = 1280
 WINDOW_SIZE_Y = 720
-MARGIN = 5
+MARGIN = 20
 
 
 # Configure window dimensions and style
@@ -40,7 +40,7 @@ class VolumeSlider(Slider):
         self.value = 5
         self.step = 1
         self.size_hint = (None, None)
-        self.size = (960, 8)
+        self.size = (WINDOW_SIZE_X - ( MARGIN * 2 + GRID_SIZE * 2 + SMALL_ASSET_SIZE * 2), 6)
         self.cursor_size = (0, 0)
         self.disabled = True  # Disable direct touch
 
@@ -196,14 +196,15 @@ class SonoplastUI(FloatLayout):
         self.add_widget(self.desc_label)
 
         # Volume slider and control buttons
-        self.volume_slider = VolumeSlider(pos=(340, self.height - 680))
-        self.add_widget(self.volume_slider)
 
         self.vol_down = VolumeButton(source="images/vol_down.png", pos=(MARGIN, WINDOW_SIZE_Y - MARGIN - self.height))
         self.vol_down.bind(on_release=lambda _: self.adjust_volume(-1))
         self.add_widget(self.vol_down)
 
-        self.vol_up = VolumeButton(source="images/vol_up.png", pos=(WINDOW_SIZE_X - MARGIN - self.width, WINDOW_SIZE_Y - MARGIN - self.height))
+        self.volume_slider = VolumeSlider(pos=(self.vol_down.x + GRID_SIZE, self.vol_down.y - self.height + (self.vol_down.height / 2)))
+        self.add_widget(self.volume_slider)  
+
+        self.vol_up = VolumeButton(source="images/vol_up.png", pos=(WINDOW_SIZE_X - MARGIN - self.width, self.vol_down.y))
         self.vol_up.bind(on_release=lambda _: self.adjust_volume(1))
         self.add_widget(self.vol_up)
 
@@ -227,8 +228,8 @@ class SonoplastUI(FloatLayout):
         self.rev_btn.pos = (560 - 180, self.height - 590)
         self.play_btn.pos = (560 ,self.height - 590)
         self.fwd_btn.pos = (560 + 180, self.height - 590)
-        self.volume_slider.pos = (125, self.height - 630)
         self.vol_down.pos = (MARGIN, self.height - (WINDOW_SIZE_Y - MARGIN - self.vol_down.height))
+        self.volume_slider.pos = (self.vol_down.x + GRID_SIZE + self.vol_down.width, self.vol_down.y - self.volume_slider.height + (self.vol_down.height / 2))
         self.vol_up.pos = ((WINDOW_SIZE_X - MARGIN - self.vol_up.width), self.height - (WINDOW_SIZE_Y - MARGIN - self.vol_up.height))
         self.track_slider.pos = (400, self.height - 400)
         self.cover_btn.pos = (540, self.height - 360)
