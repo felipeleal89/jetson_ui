@@ -8,7 +8,7 @@ from kivy.uix.slider import Slider
 from kivy.graphics import Color, Rectangle
 
 # === Global constants ===
-GRID_SIZE = 40
+GRID_SIZE = 35
 SMALL_ASSET_SIZE = GRID_SIZE * 2           
 MEDIUM_ASSET_SIZE = GRID_SIZE * 2          
 LARGE_ASSET_SIZE = GRID_SIZE * 4        
@@ -194,14 +194,14 @@ class SonoplastUI(FloatLayout):
         self.add_widget(self.desc_label)
 
         # === Volume Controls ===
-        self.vol_down = VolumeButton(source="images/vol_down.png", pos=(MARGIN, SECTOR_VOLUME_Y))
+        self.vol_down = VolumeButton(source="images/vol_down.png", pos=(center_x - (GRID_SIZE * 8) - SMALL_ASSET_SIZE, SECTOR_VOLUME_Y))
         self.vol_down.bind(on_release=lambda _: self.adjust_volume(-1))
         self.add_widget(self.vol_down)
 
         self.volume_slider = VolumeSlider(pos=(center_x - (GRID_SIZE * 6), SECTOR_VOLUME_Y + MEDIUM_ASSET_SIZE // 2))
         self.add_widget(self.volume_slider)
 
-        self.vol_up = VolumeButton(source="images/vol_up.png", pos=(WINDOW_SIZE_X - MARGIN - SMALL_ASSET_SIZE, SECTOR_VOLUME_Y))
+        self.vol_up = VolumeButton(source="images/vol_up.png", pos=(center_x + (GRID_SIZE * 8), SECTOR_VOLUME_Y))
         self.vol_up.bind(on_release=lambda _: self.adjust_volume(1))
         self.add_widget(self.vol_up)
 
