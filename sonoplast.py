@@ -8,7 +8,7 @@ from kivy.uix.slider import Slider
 from kivy.graphics import Color, Rectangle
 
 # === Global constants ===
-GRID_SIZE = 20                          #MAX
+GRID_SIZE = 30                         #MAX 35
 SMALL_ASSET_SIZE = GRID_SIZE * 2           
 MEDIUM_ASSET_SIZE = GRID_SIZE * 2          
 LARGE_ASSET_SIZE = GRID_SIZE * 4        
