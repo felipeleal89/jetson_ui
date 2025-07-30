@@ -209,10 +209,10 @@ class SonoplastUI(FloatLayout):
         self.add_widget(self.time_fim_label)
 
         # === Volume Controls ===
-        self.volume_slider = VolumeSlider(pos=(center_x + (GRID_SIZE * 8), SECTOR_TRACK_Y + SMALL_ASSET_SIZE / 1.3))
+        self.volume_slider = VolumeSlider(pos=(center_x + (GRID_SIZE * 9), SECTOR_TRACK_Y + SMALL_ASSET_SIZE / 1.3))
         self.add_widget(self.volume_slider)
 
-        self.vol_up = VolumeButton(source="images/vol_up.png", pos=(center_x + (GRID_SIZE * 10), SECTOR_TRACK_Y + (SMALL_ASSET_SIZE / 2)))
+        self.vol_up = VolumeButton(source="images/vol_up.png", pos=(center_x + (GRID_SIZE * 7), SECTOR_TRACK_Y + SMALL_ASSET_SIZE / 3))
         self.vol_up.bind(on_release=lambda _: self.adjust_volume(1))
         self.add_widget(self.vol_up)
 
