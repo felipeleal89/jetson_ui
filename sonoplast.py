@@ -47,24 +47,27 @@ class VolumeSlider(Slider):
         self.cursor_size = (0, 0)
         self.background_width = 0
 
+        # Faixa visual
         with self.canvas.before:
             self.bg_color = Color(1, 1, 1, 1)
             self.bg_rect = Rectangle(pos=self.pos, size=self.size)
             self.fg_color = Color(1, 0.5, 1, 1)
             self.fg_rect = Rectangle(pos=self.pos, size=(self.width * (self.value / self.max), self.height))
 
+        # Cursor personalizado
         with self.canvas.after:
             self.custom_cursor = Rectangle(
                 source="images/cursor.png",
-                size=(GRID_SIZE * 1.33, GRID_SIZE * 1.33)
+                size=(GRID_SIZE, GRID_SIZE)
             )
 
         self.bind(pos=self.update_canvas, size=self.update_canvas, value=self.update_canvas)
 
-        # ✅ Corrige a posição do cursor no primeiro frame
+        # Atualiza visualmente no primeiro frame
         self.update_canvas()
 
     def update_canvas(self, *args):
+        # Atualiza a barra de fundo e o preenchimento
         self.bg_rect.pos = self.pos
         self.bg_rect.size = self.size
 
@@ -72,10 +75,29 @@ class VolumeSlider(Slider):
         self.fg_rect.pos = self.pos
         self.fg_rect.size = (progress_width, self.height)
 
+        # Atualiza a posição do cursor visual
         ratio = (self.value - self.min) / float(self.max - self.min)
         cursor_x = self.x + ratio * self.width - self.custom_cursor.size[0] / 2
         cursor_y = self.y + self.height / 2 - self.custom_cursor.size[1] / 2
         self.custom_cursor.pos = (cursor_x, cursor_y)
+
+    def on_touch_down(self, touch):
+        # Área de toque estendida verticalmente
+        extra_touch_margin = GRID_SIZE  # margem adicional para facilitar o toque
+
+        if (self.x <= touch.x <= self.right and
+            self.y - extra_touch_margin <= touch.y <= self.top + extra_touch_margin):
+
+            relative_x = touch.x - self.x
+            ratio = max(0.0, min(1.0, relative_x / self.width))
+            self.value = self.min + ratio * (self.max - self.min)
+            return True
+
+        return super().on_touch_down(touch)
+
+    def on_touch_move(self, touch):
+        # Permite arrastar o cursor com o dedo
+        return self.on_touch_down(touch)
 
 class TrackSlider(Slider):
     def __init__(self, **kwargs):
