@@ -127,5 +127,6 @@ This will:
 - Change `GRID_SIZE`, `WINDOW_SIZE_X`, `WINDOW_SIZE_Y` in `sonoplast.py` to scale the layout.
 - Replace any icons in the `images/` folder and fonts in `fonts/`.
 ---
+
 Made by [Felipe Leal](https://github.com/felipeleal89)  
 ---
