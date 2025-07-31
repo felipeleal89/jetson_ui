@@ -61,7 +61,6 @@ curl -Ls https://astral.sh/uv/install.sh | bash
 ### 3. Create virtual environment and install dependencies
 
 ```bash
-uv venv
 uv sync
 ```
 
