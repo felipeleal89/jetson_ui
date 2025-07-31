@@ -93,6 +93,22 @@ all:
 ```
 
 ### 2. Run the playbook
+Generate a ssh key to grant access to the target device:
+
+```bash
+ssh-keygen -t rsa -b 4096
+```
+
+Copy it to target (if your target is a raspberry pi, enable SSH first):
+```bash
+ssh-copy-id <user>@<ip>
+```
+Try to connect to see if it worked:
+
+```bash
+ssh <user>@<ip>
+```
+if connected, exit and run from the project file:
 
 ```bash
 ansible-playbook -i inventory.yml deploy_ui.yml
@@ -100,7 +116,7 @@ ansible-playbook -i inventory.yml deploy_ui.yml
 
 This will:
 
-- Create or update `/home/your_user/jetson_ui` on Jetson
+- Create or update `/home/your_user/jetson_ui` on Target
 - Pull the latest code via `git`
 - Activate the virtual environment `.venv`
 - Run `sonoplast.py` silently in the background
