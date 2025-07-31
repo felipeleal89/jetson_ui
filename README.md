@@ -2,6 +2,7 @@
 
 **SonoBlast** is a modern, touch-optimized Kivy-based audio control interface designed for performance scenarios like sound design, installations, and embedded systems. Built for the Jetson Nano, it features canvas-rendered sliders, playback control buttons, and a responsive layout grid.
 
+![alt text](image.png)
 ---
 
 ## 🚀 Features
@@ -27,16 +28,17 @@
 
 ## 📁 Project Structure
 
+```
 jetson_ui/
-├── images/ # UI icons
-├── fonts/ # Fonts used in UI
-├── sonoplast.py # Main application file
-├── pyproject.toml # Project metadata and dependencies
-├── requirements.txt # Flat requirements (generated)
-├── deploy_ui.yml # Ansible playbook
-├── inventory.yml # Ansible inventory
-└── README.md # This file
-
+├── images/                     # UI icons
+├── fonts/                      # Fonts used in UI
+├── sonoplast.py                # Main application file
+├── pyproject.toml              # Project metadata and dependencies
+├── requirements.txt            # Flat requirements (generated)
+├── deploy_ui.yml               # Ansible playbook
+├── inventory.yml               # Ansible inventory
+└── README.md                   # This file
+```
 
 ---
 
@@ -45,43 +47,78 @@ jetson_ui/
 ### 1. Clone the project
 
 ```bash
-git clone git@github.com:felipeleal89/jetson_ui.git
+git clone https://github.com/seu-usuario/jetson_ui.git
 cd jetson_ui
-2. Install uv
+```
+
+### 2. Install `uv`
+
+```bash
 curl -Ls https://astral.sh/uv/install.sh | bash
 # Then restart your terminal or add ~/.cargo/bin to PATH
-3. Create virtual environment and install dependencies
+```
+
+### 3. Create virtual environment and install dependencies
+
+```bash
 uv venv
 uv pip install .  # or: uv pip install -r requirements.txt
-4. Run the app
-python sonoplast.py
-By default, the app runs in fullscreen. You can disable this in sonoplast.py:
-Window.fullscreen = False
-🤖 Deploy to Jetson Nano via Ansible
+```
 
-1. Set your device in inventory.yml
+### 4. Run the app
+
+```bash
+python sonoplast.py
+```
+
+> By default, the app runs in fullscreen. You can disable this in `sonoplast.py`:
+>
+> ```python
+> Window.fullscreen = False
+> ```
+
+---
+
+## 🤖 Deploy to Jetson Nano via Ansible
+
+### 1. Set your device in `inventory.yml`
+
+```yaml
 all:
   hosts:
     jetson:
-      ansible_host: <target hostr>
-      ansible_user: <target user>
+      ansible_host: 192.168.1.162
+      ansible_user: nanoql
       ansible_python_interpreter: /usr/local/bin/python3.9
-2. Run the playbook
+```
+
+### 2. Run the playbook
+
+```bash
 ansible-playbook -i inventory.yml deploy_ui.yml
+```
+
 This will:
 
-Create or update /home/<target user>/jetson_ui on Jetson
-Pull the latest code via git
-Activate the virtual environment .venv
-Run sonoplast.py silently in the background
-🔧 Customization
+- Create or update `/home/nanoql/jetson_ui` on Jetson
+- Pull the latest code via `git`
+- Activate the virtual environment `.venv`
+- Run `sonoplast.py` silently in the background
 
-Change GRID_SIZE, WINDOW_SIZE_X, WINDOW_SIZE_Y in sonoplast.py to scale the layout.
-Replace any icons in the images/ folder and fonts in fonts/.
-📦 Dependencies
+---
 
-Below is a flat list of dependencies (also available in requirements.txt):
+## 🔧 Customization
 
+- Change `GRID_SIZE`, `WINDOW_SIZE_X`, `WINDOW_SIZE_Y` in `sonoplast.py` to scale the layout.
+- Replace any icons in the `images/` folder and fonts in `fonts/`.
+
+---
+
+## 📦 Dependencies
+
+Below is a flat list of dependencies (also available in `requirements.txt`):
+
+```
 certifi>=2025.7.14
 charset-normalizer>=3.4.2
 docutils>=0.21.2
@@ -96,3 +133,18 @@ pygments>=2.19.2
 requests>=2.32.4
 setuptools>=80.9.0
 urllib3>=2.5.0
+```
+
+---
+
+## 🧑‍💻 Author
+
+**[Seu Nome]**  
+[https://github.com/seu-usuario](https://github.com/seu-usuario)  
+🎛️ Audio + Software Creator
+
+---
+
+## 📜 License
+
+MIT License. See `LICENSE` for details.
