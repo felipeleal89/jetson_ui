@@ -18,9 +18,9 @@ WINDOW_SIZE_Y = 720
 MARGIN = GRID_SIZE // 2
 
 # Vertical sectors (from top down)
-SECTOR_TITLE_Y = (GRID_SIZE * 17)
+SECTOR_TITLE_Y = (GRID_SIZE * 16.5)
 SECTOR_COVER_Y =  SECTOR_TITLE_Y - (GRID_SIZE * 9.5)
-SECTOR_CONTROLS_Y = SECTOR_COVER_Y - (GRID_SIZE * 5.5)
+SECTOR_CONTROLS_Y = SECTOR_COVER_Y - (GRID_SIZE * 4.5)
 SECTOR_TRACK_Y = SECTOR_CONTROLS_Y - (GRID_SIZE * 2)
 
 Window.size = (WINDOW_SIZE_X, WINDOW_SIZE_Y)
@@ -219,8 +219,16 @@ class SonoplastUI(FloatLayout):
             color=(1, 0.5, 1, 1),
             size_hint=(None, None),
         )
+        self.registerd_label= Label(
+            text="®",
+            markup=True,
+            font_size=GRID_SIZE ,
+            font_name="fonts/RobotoCondensed-Regular.ttf",
+            color=(1, 0.5, 1, 1),
+            size_hint=(None, None),
+        )
         self.desc_label = Label(
-            text="a sonoloplast player_",
+            text="a sonoplast player_",
             font_size=GRID_SIZE,
             font_name="fonts/Orbitron-Regular.ttf",
             color=(1, 1, 1, 1),
@@ -246,6 +254,7 @@ class SonoplastUI(FloatLayout):
         self.add_widget(self.desc_label)
         self.add_widget(self.time_label)
         self.add_widget(self.time_fim_label)
+        self.add_widget(self.registerd_label)
 
         # === Volume Controls ===
         self.volume_slider = VolumeSlider(pos=(center_x + (GRID_SIZE * 9), SECTOR_TRACK_Y + SMALL_ASSET_SIZE / 1.3))
@@ -265,18 +274,21 @@ class SonoplastUI(FloatLayout):
         self.desc_label.texture_update()
         self.time_label.texture_update()
         self.time_fim_label.texture_update()
+        self.registerd_label.texture_update()
 
         self.sono_label.size = self.sono_label.texture_size
         self.blast_label.size = self.blast_label.texture_size
         self.desc_label.size = self.desc_label.texture_size
         self.time_label.size = self.time_label.texture_size
         self.time_fim_label.size = self.time_fim_label.texture_size
+        self.registerd_label.size = self.registerd_label.texture_size
 
         self.sono_label.pos = (center_x - self.sono_label.width, SECTOR_TITLE_Y - self.sono_label.height + GRID_SIZE)
         self.blast_label.pos = (self.sono_label.right, SECTOR_TITLE_Y - self.blast_label.height + GRID_SIZE)
         self.desc_label.pos = (center_x - (self.desc_label.width / 2), SECTOR_TITLE_Y - self.blast_label.height)
-        self.time_label.pos = (center_x - self.track_slider.width / 2 - self.time_label.width - GRID_SIZE / 2, SECTOR_TRACK_Y + self.time_label.height)
-        self.time_fim_label.pos = (center_x + self.track_slider.width / 2 + GRID_SIZE / 2, SECTOR_TRACK_Y + self.time_fim_label.height)
+        self.time_label.pos = (center_x - self.track_slider.width / 2 - self.time_label.width - GRID_SIZE / 2, SECTOR_TRACK_Y + self.time_label.height * 1.2)
+        self.time_fim_label.pos = (center_x + self.track_slider.width / 2 + GRID_SIZE / 2, SECTOR_TRACK_Y + self.time_fim_label.height * 1.2)
+        self.registerd_label.pos = (self.blast_label.right, self.blast_label.top - self.registerd_label.height) 
 
         self.bind(pos=self.update_bg, size=self.update_bg)
 
