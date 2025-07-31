@@ -22,7 +22,7 @@
 - Python ≥ 3.9
 - [`uv`](https://github.com/astral-sh/uv) – fast virtualenv + dependency manager
 - `git`
-- `ansible` (for Jetson deployment)
+- `ansible` (tested on Jetson)
 
 ---
 
@@ -47,7 +47,7 @@ jetson_ui/
 ### 1. Clone the project
 
 ```bash
-git clone https://github.com/seu-usuario/jetson_ui.git
+git clone git@github.com:felipeleal89/jetson_ui.git
 cd jetson_ui
 ```
 
@@ -87,8 +87,8 @@ python sonoplast.py
 all:
   hosts:
     jetson:
-      ansible_host: 192.168.1.162
-      ansible_user: nanoql
+      ansible_host: target ip addr
+      ansible_user: target user
       ansible_python_interpreter: /usr/local/bin/python3.9
 ```
 
@@ -100,7 +100,7 @@ ansible-playbook -i inventory.yml deploy_ui.yml
 
 This will:
 
-- Create or update `/home/nanoql/jetson_ui` on Jetson
+- Create or update `/home/your_user/jetson_ui` on Jetson
 - Pull the latest code via `git`
 - Activate the virtual environment `.venv`
 - Run `sonoplast.py` silently in the background
@@ -139,10 +139,8 @@ urllib3>=2.5.0
 
 ## 🧑‍💻 Author
 
-**[Seu Nome]**  
-[https://github.com/seu-usuario](https://github.com/seu-usuario)  
-🎛️ Audio + Software Creator
-
+**[Felipe Leal]**  
+[https://github.com/felipeleal89](https://github.com/felipeleal89)  
 ---
 
 ## 📜 License
