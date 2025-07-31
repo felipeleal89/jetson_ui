@@ -6,6 +6,8 @@ from kivy.uix.button import ButtonBehavior
 from kivy.uix.label import Label
 from kivy.uix.slider import Slider
 from kivy.graphics import Color, Rectangle
+from kivy.clock import Clock
+from time import time
 
 # === Constants ===
 GRID_SIZE = 40
@@ -142,7 +144,6 @@ class ToggleImageButton(ButtonBehavior, Image):
 
 
 class PlayButton(ButtonBehavior, Image):
-    """@brief Play/Pause toggle button."""
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.state_on = False
@@ -150,7 +151,15 @@ class PlayButton(ButtonBehavior, Image):
         self.size_hint = (None, None)
         self.size = (LARGE_ASSET_SIZE, LARGE_ASSET_SIZE)
 
+        self.debounce_time = 0.4  # seconds
+        self.last_pressed = 0
+
     def on_press(self):
+        now = time()
+        if now - self.last_pressed < self.debounce_time:
+            return  # Ignore press if it's too soon
+        self.last_pressed = now
+
         self.state_on = not self.state_on
         self.source = "images/pause.png" if self.state_on else "images/play.png"
 
