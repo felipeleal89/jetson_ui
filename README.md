@@ -47,7 +47,7 @@ jetson_ui/
 ### 1. Clone the project
 
 ```bash
-git clone git@github.com:felipeleal89/jetson_ui.git
+git clone https://github.com/felipeleal89/jetson_ui.git
 cd jetson_ui
 ```
 
@@ -62,7 +62,7 @@ curl -Ls https://astral.sh/uv/install.sh | bash
 
 ```bash
 uv venv
-uv pip install .  # or: uv pip install -r requirements.txt
+uv sync
 ```
 
 ### 4. Run the app
