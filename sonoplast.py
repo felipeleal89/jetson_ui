@@ -8,6 +8,9 @@ from kivy.uix.slider import Slider
 from kivy.graphics import Color, Rectangle
 from kivy.clock import Clock
 from time import time
+import subprocess
+import platform
+
 
 # === Constants ===
 GRID_SIZE = 40
@@ -42,7 +45,6 @@ class VolumeButton(ButtonBehavior, Image):
         super().__init__(**kwargs)
         self.size_hint = (None, None)
         self.size = (SMALL_ASSET_SIZE, SMALL_ASSET_SIZE)
-
 
 class VolumeSlider(Slider):
     """@brief Custom slider with extended touch and canvas-based cursor."""
@@ -90,9 +92,11 @@ class VolumeSlider(Slider):
         return super().on_touch_down(touch)
 
     def on_touch_move(self, touch):
-
-        return self.on_touch_down(touch)
-
+        if super().on_touch_move(touch):
+            if hasattr(self.parent, 'set_volume_from_slider'):
+                self.parent.set_volume_from_slider()
+            return True
+        return False
 
 class TrackSlider(Slider):
     """@brief Non-interactive track position slider."""
@@ -180,6 +184,38 @@ class Cover(ButtonBehavior, Image):
         self.size_hint = (None, None)
         self.size = (EXTRA_LARGE_ASSET_SIZE, EXTRA_LARGE_ASSET_SIZE)
 
+def set_system_volume(percent):
+    """
+    @brief Set system volume using platform-appropriate command.
+    @param percent Integer from 0 to 100
+    """
+    volume_level = max(0, min(100, int(percent)))
+    system = platform.system()
+
+    try:
+        if system == "Linux":
+            subprocess.run(
+                ["amixer", "sset", "PCM", f"{volume_level}%"],
+                check=True,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL
+            )
+        elif system == "Darwin":
+            result = subprocess.run(
+                ["osascript", "-e", f"set volume output volume {volume_level}"],
+                check=True,
+                capture_output=True,  # Captura saída para debug
+                text=True
+            )
+            print(f"[macOS] Volume set to {volume_level}% - {result.stdout.strip()}")
+        else:
+            print("Unsupported OS for volume control")
+    except subprocess.CalledProcessError as e:
+        print(f"[ERROR] Failed to set volume: {e.stderr if e.stderr else e}")
+    except Exception as e:
+        print(f"[ERROR] An error occurred: {e}")
+
+
 
 class SonoplastUI(FloatLayout):
     """@brief Main UI layout for the SonoBlast player."""
@@ -240,6 +276,7 @@ class SonoplastUI(FloatLayout):
 
     def create_volume_controls(self):
         self.volume_slider = VolumeSlider(pos=(CENTER_X + VOLUME_SLIDER_OFFSET_X, SECTOR_TRACK_Y + VOLUME_SLIDER_OFFSET_Y))
+        self.volume_slider.bind(value=lambda _, val: set_system_volume(val * 10))
         self.vol_up = VolumeButton(source="images/vol_up.png", pos=(CENTER_X + VOLUME_BUTTON_OFFSET_X, SECTOR_TRACK_Y + VOLUME_BUTTON_OFFSET_Y))
         self.vol_up.bind(on_release=lambda _: self.adjust_volume(1))
 
@@ -257,6 +294,10 @@ class SonoplastUI(FloatLayout):
     def adjust_volume(self, delta):
         new_val = self.volume_slider.value + delta
         self.volume_slider.value = max(self.volume_slider.min, min(self.volume_slider.max, new_val))
+        set_system_volume(self.volume_slider.value * 10)  # 0–10 range to 0–100%
+
+    def set_volume_from_slider(self):
+        set_system_volume(self.volume_slider.value * 10)
 
 
 class SonoplastApp(App):
