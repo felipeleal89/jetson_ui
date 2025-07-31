@@ -123,9 +123,21 @@ class TrackSlider(Slider):
         self.fg_rect.size = (self.width * ((self.value - self.min) / float(self.max - self.min)), self.height)
         self.fg_rect.pos = self.pos
 
+class DebounceMixin:
+    """@brief Mixin that adds software debounce logic to any button class."""
+    def __init__(self, debounce_time=0.4, **kwargs):
+        super().__init__(**kwargs)
+        self.debounce_time = debounce_time
+        self.last_pressed = 0
 
-class ToggleImageButton(ButtonBehavior, Image):
-    """@brief Base class for toggle image buttons (e.g., forward/reverse)."""
+    def is_debounced(self):
+        now = time()
+        if now - self.last_pressed < self.debounce_time:
+            return False
+        self.last_pressed = now
+        return True
+class ToggleImageButton(DebounceMixin, ButtonBehavior, Image):
+    """@brief Base class for toggle image buttons (e.g., forward/reverse) with debounce."""
     def __init__(self, source_off, source_on, **kwargs):
         super().__init__(**kwargs)
         self.state_on = False
@@ -135,6 +147,8 @@ class ToggleImageButton(ButtonBehavior, Image):
         self.size_hint = (None, None)
 
     def on_press(self):
+        if not self.is_debounced():
+            return
         self.state_on = True
         self.source = self.source_on
 
@@ -143,7 +157,8 @@ class ToggleImageButton(ButtonBehavior, Image):
         self.source = self.source_off
 
 
-class PlayButton(ButtonBehavior, Image):
+class PlayButton(DebounceMixin, ButtonBehavior, Image):
+    """@brief Play/Pause button with debounce and state toggle."""
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.state_on = False
@@ -151,18 +166,11 @@ class PlayButton(ButtonBehavior, Image):
         self.size_hint = (None, None)
         self.size = (LARGE_ASSET_SIZE, LARGE_ASSET_SIZE)
 
-        self.debounce_time = 0.4  # seconds
-        self.last_pressed = 0
-
     def on_press(self):
-        now = time()
-        if now - self.last_pressed < self.debounce_time:
-            return  # Ignore press if it's too soon
-        self.last_pressed = now
-
+        if not self.is_debounced():
+            return
         self.state_on = not self.state_on
         self.source = "images/pause.png" if self.state_on else "images/play.png"
-
 
 class Cover(ButtonBehavior, Image):
     """@brief Decorative or interactive cover image."""
