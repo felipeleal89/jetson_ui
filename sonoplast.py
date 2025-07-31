@@ -44,33 +44,8 @@ class VolumeSlider(Slider):
         self.step = 1
         self.size_hint = (None, None)
         self.size = (GRID_SIZE * 6, GRID_SIZE // 4)
-        self.cursor_size = (0 , 0)
+        self.cursor_size = (0, 0)
         self.background_width = 0
-        with self.canvas.before:
-            self.bg_color = Color(1, 1, 1, 1)
-            self.bg_rect = Rectangle(pos=self.pos, size=self.size)
-            self.fg_color = Color(1, 0.5, 1, 1)
-            self.fg_rect = Rectangle(pos=self.pos, size=(self.width * (self.value / self.max), self.height))
-
-        with self.canvas.after:
-            self.custom_cursor = Rectangle(
-            source="images/cursor.png",  # sua imagem do cursor
-            size=(GRID_SIZE, GRID_SIZE)  # ou (40, 40) se preferir fixo
-        )
-
-        self.bind(pos=self.update_canvas, size=self.update_canvas, value=self.update_canvas)
-
-class VolumeSlider(Slider):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.min = 0
-        self.max = 10
-        self.value = 5
-        self.step = 1
-        self.size_hint = (None, None)
-        self.size = (GRID_SIZE * 6, GRID_SIZE // 4)
-        self.cursor_size = (0, 0)  # desativa cursor padrão
-        self.background_width = 0  # remove fundo padrão
 
         with self.canvas.before:
             self.bg_color = Color(1, 1, 1, 1)
@@ -86,6 +61,9 @@ class VolumeSlider(Slider):
 
         self.bind(pos=self.update_canvas, size=self.update_canvas, value=self.update_canvas)
 
+        # ✅ Corrige a posição do cursor no primeiro frame
+        self.update_canvas()
+
     def update_canvas(self, *args):
         self.bg_rect.pos = self.pos
         self.bg_rect.size = self.size
@@ -98,7 +76,6 @@ class VolumeSlider(Slider):
         cursor_x = self.x + ratio * self.width - self.custom_cursor.size[0] / 2
         cursor_y = self.y + self.height / 2 - self.custom_cursor.size[1] / 2
         self.custom_cursor.pos = (cursor_x, cursor_y)
-
 
 class TrackSlider(Slider):
     def __init__(self, **kwargs):
