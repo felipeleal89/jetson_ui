@@ -195,7 +195,7 @@ def set_system_volume(percent):
     try:
         if system == "Linux":
             subprocess.run(
-                ["amixer", "sset", "PCM", f"{volume_level}%"],
+                ["amixer", "sset", "Master", f"{volume_level}%"],
                 check=True,
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL
