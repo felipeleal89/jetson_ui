@@ -283,7 +283,7 @@ class SonoplastUI(FloatLayout):
         self.time_fim_label.size = self.time_fim_label.texture_size
         self.registerd_label.size = self.registerd_label.texture_size
 
-        self.sono_label.pos = (center_x - self.sono_label.width, SECTOR_TITLE_Y - self.sono_label.height + GRID_SIZE)
+        self.sono_label.pos = (center_x - self.sono_label.width - GRID_SIZE / 3, SECTOR_TITLE_Y - self.sono_label.height + GRID_SIZE)
         self.blast_label.pos = (self.sono_label.right, SECTOR_TITLE_Y - self.blast_label.height + GRID_SIZE)
         self.desc_label.pos = (center_x - (self.desc_label.width / 2), SECTOR_TITLE_Y - self.blast_label.height)
         self.time_label.pos = (center_x - self.track_slider.width / 2 - self.time_label.width - GRID_SIZE / 2, SECTOR_TRACK_Y + self.time_label.height * 1.2)
