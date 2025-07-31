@@ -5,22 +5,14 @@
 
     - name: Ensure project folder exists
       ansible.builtin.file:
-        path: /home/nanoql/jetson_ui
+        path: /home/rpiql0001/jetson_ui
         state: directory
 
     - name: Git pull latest code
       ansible.builtin.git:
         repo: 'https://github.com/felipeleal89/jetson_ui.git'
-        dest: /home/nanoql/jetson_ui
+        dest: /home/rpiql0001/jetson_ui
         version: main
         force: yes
         update: yes
-
-    - name: Run sonoplast.py from venv
-      ansible.builtin.shell: |
-        cd /home/nanoql/jetson_ui
-        source .venv/bin/activate 
-        python sonoplast.py > /dev/null 2>&1 </dev/null &
-      args:
-        executable: /bin/bash
 
