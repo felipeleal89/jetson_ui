@@ -56,7 +56,7 @@ class VolumeSlider(Slider):
         with self.canvas.after:
             self.custom_cursor = Rectangle(
                 source="images/cursor.png",
-                size=(GRID_SIZE, GRID_SIZE)
+                size=(GRID_SIZE * 1.33, GRID_SIZE * 1.33)
             )
 
         self.bind(pos=self.update_canvas, size=self.update_canvas, value=self.update_canvas)
