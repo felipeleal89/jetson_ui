@@ -13,7 +13,7 @@ import platform
 
 
 # === Constants ===
-GRID_SIZE = 40
+GRID_SIZE = 20
 SMALL_ASSET_SIZE = GRID_SIZE * 1.5
 MEDIUM_ASSET_SIZE = GRID_SIZE * 3
 LARGE_ASSET_SIZE = GRID_SIZE * 4
